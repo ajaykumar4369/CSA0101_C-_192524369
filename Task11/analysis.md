@@ -1,0 +1,5 @@
+# Task 11 - Final design recommendation
+
+Retain the typed, object-oriented design: `long long` integer paise, `enum class Zone`, centralized constexpr fares and limits, and a `SmartCard` with private balance. Validate the zone/time and preserve the Rs 50 reserve. A fare revision changes one constant or table entry; regression tests cover interval boundaries and reserve behavior. The aggregate estimate for three million Rs 36 trips is 10.8 trillion paise, so `int` is not sufficient while `long long` is.
+
+Limitations: student/senior discount rates and rounding policy were unspecified and need operator decisions. Production use also needs persistence, auditing, refunds, concurrency and pass expiry. A configuration file allows fare revisions without rebuilding but adds O(z) startup parsing and O(z) storage for z zones; compiled constants are simpler and fail less at startup. For a stable small fare system, compiled policy is suitable; frequent revisions justify a validated, versioned config.
